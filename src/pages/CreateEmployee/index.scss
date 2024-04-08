@@ -1,0 +1,17 @@
+.create-employee {
+  width: 50vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 50px auto;
+  &__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    fieldset {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+}
