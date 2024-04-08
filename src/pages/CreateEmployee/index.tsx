@@ -1,8 +1,12 @@
 import { Link } from 'react-router-dom'
+import { DatePicker } from '@malfeitor/date-picker'
+import './index.scss'
+import { useRef } from 'react'
 
 export default function CreateEmployee() {
+  const birth_date = useRef<HTMLInputElement>(null)
   return (
-    <div>
+    <div className="create-employee">
       <h1>HRnet</h1>
       <Link to="/employee-list">View Current Employees</Link>
       <h2>Create Employee</h2>
@@ -16,7 +20,9 @@ export default function CreateEmployee() {
         <label htmlFor="lastname">Last Name</label>
         <input type="text" id="lastname" />
         <label>Date of Birth</label>
+        <DatePicker ref={birth_date} />
         <label>Start Date</label>
+        {/* <DatePicker /> */}
         <fieldset className="address">
           <legend>Address</legend>
           <label htmlFor="street">Street</label>
