@@ -5,6 +5,7 @@ import { useRef } from 'react'
 
 export default function CreateEmployee() {
   const birth_date = useRef<HTMLInputElement>(null)
+  const employement_start_date = useRef<HTMLInputElement>(null)
   return (
     <div className="create-employee">
       <h1>HRnet</h1>
@@ -22,7 +23,7 @@ export default function CreateEmployee() {
         <label>Date of Birth</label>
         <DatePicker ref={birth_date} />
         <label>Start Date</label>
-        {/* <DatePicker /> */}
+        <DatePicker ref={employement_start_date} />
         <fieldset className="address">
           <legend>Address</legend>
           <label htmlFor="street">Street</label>
