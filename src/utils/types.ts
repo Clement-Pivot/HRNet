@@ -14,3 +14,7 @@ export type Employee = {
   addressZip: number
   department: string
 }
+
+export type Store = {
+  employees: Employee[]
+}
