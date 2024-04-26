@@ -1,3 +1,5 @@
+import { State } from './types'
+
 const states: State[] = [
   {
     name: 'Alabama',
@@ -236,10 +238,5 @@ const states: State[] = [
     abbreviation: 'WY',
   },
 ]
-
-export type State = {
-  name: string
-  abbreviation: string
-}
 
 export default states
