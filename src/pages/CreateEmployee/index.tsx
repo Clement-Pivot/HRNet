@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { DatePicker } from '@malfeitor/date-picker'
 import './index.scss'
 import { useRef } from 'react'
+import States from '../../utils/statesList'
 
 export default function CreateEmployee() {
   const birth_date = useRef<HTMLInputElement>(null)
@@ -37,7 +38,9 @@ export default function CreateEmployee() {
           <input id="city" type="text" />
           <label htmlFor="state">State</label>
           <select name="state" id="state">
-            <option>France</option>
+            {States.map((state) => (
+              <option key={`state-${state.abbreviation}`}>{state.name}</option>
+            ))}
           </select>
           <label htmlFor="zip-code">Zip Code</label>
           <input id="zip-code" type="number" />
