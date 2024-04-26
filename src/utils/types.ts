@@ -17,4 +17,5 @@ export type Employee = {
 
 export type Store = {
   employees: Employee[]
+  addEmployee: (employee: Employee) => void
 }

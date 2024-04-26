@@ -1,8 +1,8 @@
 import { create } from 'zustand'
 import { Employee, Store } from './types'
 
-export const useEmployeeStore = create((set) => ({
+export const useEmployeeStore = create<Store>((set) => ({
   employees: [],
   addEmployee: (employee: Employee) =>
-    set((state: Store) => ({ employees: state.employees.push(employee) })),
+    set((state) => ({ employees: [...state.employees, employee] })),
 }))
