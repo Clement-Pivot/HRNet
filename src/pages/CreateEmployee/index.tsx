@@ -6,6 +6,11 @@ import { useRef } from 'react'
 export default function CreateEmployee() {
   const birth_date = useRef<HTMLInputElement>(null)
   const employement_start_date = useRef<HTMLInputElement>(null)
+  const datePickerProps = {
+    format: 'DD/MM/YYYY',
+    language: 'en',
+    weekStartingDay: 'Sunday',
+  }
   return (
     <div className="create-employee">
       <h1>HRnet</h1>
@@ -21,9 +26,9 @@ export default function CreateEmployee() {
         <label htmlFor="lastname">Last Name</label>
         <input type="text" id="lastname" />
         <label>Date of Birth</label>
-        <DatePicker ref={birth_date} />
+        <DatePicker ref={birth_date} {...datePickerProps} />
         <label>Start Date</label>
-        <DatePicker ref={employement_start_date} />
+        <DatePicker ref={employement_start_date} {...datePickerProps} />
         <fieldset className="address">
           <legend>Address</legend>
           <label htmlFor="street">Street</label>
