@@ -4,6 +4,7 @@ import './index.scss'
 import { SyntheticEvent, useRef } from 'react'
 import States from '../../utils/statesList'
 import { useEmployeeStore } from '../../utils/store'
+import Modal from '../../components/Modal'
 
 export default function CreateEmployee() {
   const datePickerProps = {
@@ -24,6 +25,7 @@ export default function CreateEmployee() {
 
   const addEmployeeInStore = useEmployeeStore((state) => state.addEmployee)
   const allEmployeesInStore = useEmployeeStore((state) => state.employees)
+  const showModal = useEmployeeStore((state) => state.showModal)
 
   function handleSubmit(e: SyntheticEvent) {
     e.preventDefault()
@@ -45,11 +47,13 @@ export default function CreateEmployee() {
       })
     ) {
       addEmployeeInStore(employee)
+      showModal('Employee successfully created !')
     }
   }
 
   return (
     <div className="create-employee">
+      <Modal />
       <h1>HRnet</h1>
       <Link to="/employee-list">View Current Employees</Link>
       <h2>Create Employee</h2>
