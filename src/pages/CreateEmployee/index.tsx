@@ -48,6 +48,8 @@ export default function CreateEmployee() {
     ) {
       addEmployeeInStore(employee)
       showModal('Employee successfully created !')
+    } else {
+      showModal('Employee already exists !')
     }
   }
 
