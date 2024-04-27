@@ -17,5 +17,9 @@ export type Employee = {
 
 export type Store = {
   employees: Employee[]
+  modalVisible: boolean
+  modalContent: string
   addEmployee: (employee: Employee) => void
+  showModal: (text: string) => void
+  hideModal: () => void
 }
