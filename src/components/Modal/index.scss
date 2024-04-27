@@ -1,3 +1,27 @@
 .hidden {
   display: none;
 }
+.modal {
+  position: absolute;
+  background-color: white;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  &__content {
+    background-color: grey;
+    position: absolute;
+    top: 25vh;
+    left: 25vw;
+    width: 50vw;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+  &__button {
+    width: 10vw;
+  }
+}

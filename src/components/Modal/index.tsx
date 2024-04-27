@@ -7,8 +7,12 @@ export default function Modal() {
   const hideModal = useEmployeeStore((state) => state.hideModal)
   return (
     <div className={`${modalVisible ? 'modal' : 'hidden'}`}>
-      {modalContent}
-      <button onClick={() => hideModal()}>Dismiss</button>
+      <p className="modal__content">
+        {modalContent}
+        <button onClick={() => hideModal()} className="modal__button">
+          Dismiss
+        </button>
+      </p>
     </div>
   )
 }
