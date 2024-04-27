@@ -23,6 +23,7 @@ export default function CreateEmployee() {
   const departmentRef = useRef<HTMLSelectElement>(null)
 
   const addEmployeeInStore = useEmployeeStore((state) => state.addEmployee)
+  const allEmployeesInStore = useEmployeeStore((state) => state.employees)
 
   function handleSubmit(e: SyntheticEvent) {
     e.preventDefault()
@@ -37,7 +38,14 @@ export default function CreateEmployee() {
       addressZip: parseInt(addressZipRef!.current!.value),
       department: departmentRef!.current!.value,
     }
-    addEmployeeInStore(employee)
+    const employeeStringified = JSON.stringify(employee)
+    if (
+      !allEmployeesInStore.some((storeEmployee) => {
+        return JSON.stringify(storeEmployee) === employeeStringified
+      })
+    ) {
+      addEmployeeInStore(employee)
+    }
   }
 
   return (
