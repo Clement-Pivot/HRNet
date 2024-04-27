@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom'
 import { DatePicker } from '@malfeitor/date-picker'
 import './index.scss'
-import { useRef } from 'react'
+import { SyntheticEvent, useRef } from 'react'
 import States from '../../utils/statesList'
 import { useEmployeeStore } from '../../utils/store'
 
 export default function CreateEmployee() {
   const datePickerProps = {
-    format: 'DD/MM/YYYY',
+    format: 'YYYY-MM-DD',
     language: 'en',
     weekStartingDay: 'Sunday',
   }
@@ -24,7 +24,8 @@ export default function CreateEmployee() {
 
   const addEmployeeInStore = useEmployeeStore((state) => state.addEmployee)
 
-  function handleSubmit() {
+  function handleSubmit(e: SyntheticEvent) {
+    e.preventDefault()
     const employee = {
       firstName: firstNameRef!.current!.value,
       lastName: lastNameRef!.current!.value,
