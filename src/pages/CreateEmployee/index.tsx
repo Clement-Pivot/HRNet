@@ -3,6 +3,7 @@ import { DatePicker } from '@malfeitor/date-picker'
 import './index.scss'
 import { useRef } from 'react'
 import States from '../../utils/statesList'
+import { useEmployeeStore } from '../../utils/store'
 
 export default function CreateEmployee() {
   const birth_date = useRef<HTMLInputElement>(null)
@@ -12,6 +13,23 @@ export default function CreateEmployee() {
     language: 'en',
     weekStartingDay: 'Sunday',
   }
+  const employee = {
+    firstName: '',
+    lastName: '',
+    birthDate: new Date(),
+    startDate: new Date(),
+    addressStreet: '',
+    addressCity: '',
+    addressState: '',
+    addressZip: 0,
+    department: '',
+  }
+  const addEmployeeInStore = useEmployeeStore((state) => state.addEmployee)
+
+  function handleSubmitClick() {
+    addEmployeeInStore(employee)
+  }
+
   return (
     <div className="create-employee">
       <h1>HRnet</h1>
@@ -53,6 +71,12 @@ export default function CreateEmployee() {
           <option>Human Resources</option>
           <option>Legal</option>
         </select>
+        <input
+          type="submit"
+          value={'Save'}
+          className="create-employee__submit"
+          onClick={() => handleSubmitClick()}
+        />
       </form>
     </div>
   )
