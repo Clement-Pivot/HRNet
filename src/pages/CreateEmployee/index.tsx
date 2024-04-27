@@ -6,27 +6,36 @@ import States from '../../utils/statesList'
 import { useEmployeeStore } from '../../utils/store'
 
 export default function CreateEmployee() {
-  const birth_date = useRef<HTMLInputElement>(null)
-  const employement_start_date = useRef<HTMLInputElement>(null)
   const datePickerProps = {
     format: 'DD/MM/YYYY',
     language: 'en',
     weekStartingDay: 'Sunday',
   }
-  const employee = {
-    firstName: '',
-    lastName: '',
-    birthDate: new Date(),
-    startDate: new Date(),
-    addressStreet: '',
-    addressCity: '',
-    addressState: '',
-    addressZip: 0,
-    department: '',
-  }
+
+  const firstNameRef = useRef<HTMLInputElement>(null)
+  const lastNameRef = useRef<HTMLInputElement>(null)
+  const birthDateRef = useRef<HTMLInputElement>(null)
+  const startDateRef = useRef<HTMLInputElement>(null)
+  const addressStreetRef = useRef<HTMLInputElement>(null)
+  const addressCityRef = useRef<HTMLInputElement>(null)
+  const addressStateRef = useRef<HTMLSelectElement>(null)
+  const addressZipRef = useRef<HTMLInputElement>(null)
+  const departmentRef = useRef<HTMLSelectElement>(null)
+
   const addEmployeeInStore = useEmployeeStore((state) => state.addEmployee)
 
-  function handleSubmitClick() {
+  function handleSubmit() {
+    const employee = {
+      firstName: firstNameRef!.current!.value,
+      lastName: lastNameRef!.current!.value,
+      birthDate: new Date(birthDateRef!.current!.value),
+      startDate: new Date(startDateRef!.current!.value),
+      addressStreet: addressStreetRef!.current!.value,
+      addressCity: addressCityRef!.current!.value,
+      addressState: addressStateRef!.current!.value,
+      addressZip: parseInt(addressZipRef!.current!.value),
+      department: departmentRef!.current!.value,
+    }
     addEmployeeInStore(employee)
   }
 
@@ -37,46 +46,43 @@ export default function CreateEmployee() {
       <h2>Create Employee</h2>
       <form
         className="create-employee__form"
-        action="#"
         id="create-employee__form"
+        onSubmit={handleSubmit}
       >
         <label htmlFor="firstname">First Name</label>
-        <input type="text" id="firstname" />
+        <input type="text" id="firstname" ref={firstNameRef} required />
         <label htmlFor="lastname">Last Name</label>
-        <input type="text" id="lastname" />
+        <input type="text" id="lastname" ref={lastNameRef} required />
         <label>Date of Birth</label>
-        <DatePicker ref={birth_date} {...datePickerProps} />
+        <DatePicker ref={birthDateRef} {...datePickerProps} />
         <label>Start Date</label>
-        <DatePicker ref={employement_start_date} {...datePickerProps} />
+        <DatePicker ref={startDateRef} {...datePickerProps} />
         <fieldset className="address">
           <legend>Address</legend>
           <label htmlFor="street">Street</label>
-          <input id="street" type="text" />
+          <input id="street" type="text" ref={addressStreetRef} required />
           <label htmlFor="city">City</label>
-          <input id="city" type="text" />
+          <input id="city" type="text" ref={addressCityRef} required />
           <label htmlFor="state">State</label>
-          <select name="state" id="state">
+          <select name="state" id="state" ref={addressStateRef} required>
             {States.map((state) => (
               <option key={`state-${state.abbreviation}`}>{state.name}</option>
             ))}
           </select>
           <label htmlFor="zip-code">Zip Code</label>
-          <input id="zip-code" type="number" />
+          <input id="zip-code" type="number" ref={addressZipRef} required />
         </fieldset>
         <label htmlFor="department">Department</label>
-        <select name="department" id="department">
+        <select name="department" id="department" ref={departmentRef} required>
           <option>Sales</option>
           <option>Marketing</option>
           <option>Engineering</option>
           <option>Human Resources</option>
           <option>Legal</option>
         </select>
-        <input
-          type="submit"
-          value={'Save'}
-          className="create-employee__submit"
-          onClick={() => handleSubmitClick()}
-        />
+        <button type="submit" className="create-employee__submit">
+          Save
+        </button>
       </form>
     </div>
   )
