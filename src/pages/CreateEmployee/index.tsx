@@ -54,9 +54,9 @@ export default function CreateEmployee() {
         <label htmlFor="lastname">Last Name</label>
         <input type="text" id="lastname" ref={lastNameRef} required />
         <label>Date of Birth</label>
-        <DatePicker ref={birthDateRef} {...datePickerProps} />
+        <DatePicker ref={birthDateRef} {...datePickerProps} required />
         <label>Start Date</label>
-        <DatePicker ref={startDateRef} {...datePickerProps} />
+        <DatePicker ref={startDateRef} {...datePickerProps} required />
         <fieldset className="address">
           <legend>Address</legend>
           <label htmlFor="street">Street</label>
