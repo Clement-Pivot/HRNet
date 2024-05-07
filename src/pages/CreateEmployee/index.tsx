@@ -72,7 +72,7 @@ export default function CreateEmployee() {
             type="text"
             ref={firstNameRef}
             required
-            placeholder="Enter your firstname"
+            placeholder="Enter his firstname"
           />
         </Form.Group>
         <Form.Group controlId="lastname">
@@ -80,17 +80,27 @@ export default function CreateEmployee() {
           <Form.Control
             type="text"
             ref={lastNameRef}
-            placeholder="Enter your lastname"
+            placeholder="Enter his lastname"
             required
           />
         </Form.Group>
         <Form.Group controlId="birthdate">
           <Form.Label>Date of Birth</Form.Label>
-          <DatePicker ref={birthDateRef} {...datePickerProps} required />
+          <DatePicker
+            ref={birthDateRef}
+            {...datePickerProps}
+            required
+            placeholder="Click to choose the birthday"
+          />
         </Form.Group>
         <Form.Group controlId="startDate">
           <Form.Label>Start Date</Form.Label>
-          <DatePicker ref={startDateRef} {...datePickerProps} required />
+          <DatePicker
+            ref={startDateRef}
+            {...datePickerProps}
+            required
+            placeholder="Click to choose the start date"
+          />
         </Form.Group>
 
         <fieldset className="address">
@@ -101,7 +111,7 @@ export default function CreateEmployee() {
               type="text"
               ref={addressStreetRef}
               required
-              placeholder="Enter your street"
+              placeholder="Enter his street"
             />
           </Form.Group>
           <Form.Group controlId="city">
@@ -110,7 +120,7 @@ export default function CreateEmployee() {
               type="text"
               ref={addressCityRef}
               required
-              placeholder="Enter your city"
+              placeholder="Enter his city"
             />
           </Form.Group>
           <Form.Group controlId="state">
@@ -131,7 +141,7 @@ export default function CreateEmployee() {
           <Form.Group controlId="zip-code">
             <Form.Label>Zip Code</Form.Label>
             <Form.Control
-              placeholder="Enter your Zip code"
+              placeholder="Enter his Zip code"
               type="number"
               ref={addressZipRef}
               required
