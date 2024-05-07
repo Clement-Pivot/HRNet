@@ -1,3 +1,4 @@
+import { Button, Modal, ModalHeader } from 'react-bootstrap'
 import { useEmployeeStore } from '../../utils/store'
 
 export default function CustomModal() {
@@ -5,13 +6,14 @@ export default function CustomModal() {
   const modalVisible = useEmployeeStore((state) => state.modalVisible)
   const hideModal = useEmployeeStore((state) => state.hideModal)
   return (
-    <div className={`${modalVisible ? 'modal' : 'hidden'}`}>
-      <p className="modal__content">
-        {modalContent}
-        <button onClick={() => hideModal()} className="modal__button">
-          Dismiss
-        </button>
-      </p>
-    </div>
+    <Modal show={modalVisible} onHide={hideModal} centered>
+      <ModalHeader closeButton></ModalHeader>
+      <Modal.Body>{modalContent}</Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={hideModal}>
+          Close
+        </Button>
+      </Modal.Footer>
+    </Modal>
   )
 }
