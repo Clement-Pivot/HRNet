@@ -4,7 +4,7 @@ import './index.scss'
 import { SyntheticEvent, useRef } from 'react'
 import States from '../../utils/statesList'
 import { useEmployeeStore } from '../../utils/store'
-import Modal from '../../components/Modal'
+import CustomModal from '../../components/CustomModal'
 import Form from 'react-bootstrap/Form'
 
 export default function CreateEmployee() {
@@ -56,7 +56,7 @@ export default function CreateEmployee() {
 
   return (
     <div className="create-employee">
-      <Modal />
+      <CustomModal />
       <h1>HRnet</h1>
       <Link to="/employee-list">View Current Employees</Link>
       <h2>Create Employee</h2>

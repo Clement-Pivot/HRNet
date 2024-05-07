@@ -1,7 +1,6 @@
 import { useEmployeeStore } from '../../utils/store'
-import './index.scss'
 
-export default function Modal() {
+export default function CustomModal() {
   const modalContent = useEmployeeStore((state) => state.modalContent)
   const modalVisible = useEmployeeStore((state) => state.modalVisible)
   const hideModal = useEmployeeStore((state) => state.hideModal)
