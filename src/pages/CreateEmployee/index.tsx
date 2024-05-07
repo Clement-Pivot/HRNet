@@ -5,6 +5,7 @@ import { SyntheticEvent, useRef } from 'react'
 import States from '../../utils/statesList'
 import { useEmployeeStore } from '../../utils/store'
 import Modal from '../../components/Modal'
+import Form from 'react-bootstrap/Form'
 
 export default function CreateEmployee() {
   const datePickerProps = {
@@ -79,22 +80,34 @@ export default function CreateEmployee() {
           <label htmlFor="city">City</label>
           <input id="city" type="text" ref={addressCityRef} required />
           <label htmlFor="state">State</label>
-          <select name="state" id="state" ref={addressStateRef} required>
+          <Form.Select
+            aria-label="Select state"
+            name="state"
+            id="state"
+            required
+            ref={addressStateRef}
+          >
             {States.map((state) => (
               <option key={`state-${state.abbreviation}`}>{state.name}</option>
             ))}
-          </select>
+          </Form.Select>
           <label htmlFor="zip-code">Zip Code</label>
           <input id="zip-code" type="number" ref={addressZipRef} required />
         </fieldset>
         <label htmlFor="department">Department</label>
-        <select name="department" id="department" ref={departmentRef} required>
+        <Form.Select
+          aria-label="Select department"
+          name="department"
+          id="department"
+          ref={departmentRef}
+          required
+        >
           <option>Sales</option>
           <option>Marketing</option>
           <option>Engineering</option>
           <option>Human Resources</option>
           <option>Legal</option>
-        </select>
+        </Form.Select>
         <button type="submit" className="create-employee__submit">
           Save
         </button>
