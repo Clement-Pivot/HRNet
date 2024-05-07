@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { DatePicker } from '@malfeitor/date-picker'
 import './index.scss'
-import { SyntheticEvent, useRef } from 'react'
+import { useRef } from 'react'
 import States from '../../utils/statesList'
 import { useEmployeeStore } from '../../utils/store'
 import CustomModal from '../../components/CustomModal'
@@ -29,7 +29,7 @@ export default function CreateEmployee() {
   const allEmployeesInStore = useEmployeeStore((state) => state.employees)
   const showModal = useEmployeeStore((state) => state.showModal)
 
-  function handleSubmit(e: SyntheticEvent) {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
     const employee = {
       firstName: firstNameRef!.current!.value,
