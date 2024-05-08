@@ -17,7 +17,7 @@ export default function CreateEmployee() {
 
   const firstNameRef = useRef<HTMLInputElement>(null)
   const lastNameRef = useRef<HTMLInputElement>(null)
-  const birthDateRef = useRef<HTMLInputElement>(null)
+  const birthdateRef = useRef<HTMLInputElement>(null)
   const startDateRef = useRef<HTMLInputElement>(null)
   const addressStreetRef = useRef<HTMLInputElement>(null)
   const addressCityRef = useRef<HTMLInputElement>(null)
@@ -34,7 +34,7 @@ export default function CreateEmployee() {
     const employee = {
       firstName: firstNameRef!.current!.value,
       lastName: lastNameRef!.current!.value,
-      birthDate: new Date(birthDateRef!.current!.value),
+      birthDate: new Date(birthdateRef!.current!.value),
       startDate: new Date(startDateRef!.current!.value),
       addressStreet: addressStreetRef!.current!.value,
       addressCity: addressCityRef!.current!.value,
@@ -87,7 +87,8 @@ export default function CreateEmployee() {
         <Form.Group controlId="birthdate">
           <Form.Label>Date of Birth</Form.Label>
           <DatePicker
-            ref={birthDateRef}
+            id="birthdate"
+            ref={birthdateRef}
             {...datePickerProps}
             required
             placeholder="Click to choose the birthday"
@@ -96,6 +97,7 @@ export default function CreateEmployee() {
         <Form.Group controlId="startDate">
           <Form.Label>Start Date</Form.Label>
           <DatePicker
+            id="startDate"
             ref={startDateRef}
             {...datePickerProps}
             required
