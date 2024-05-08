@@ -4,8 +4,8 @@ export type State = {
 }
 
 export type Employee = {
-  firstName: string
-  lastName: string
+  firstname: string
+  lastname: string
   birthDate: Date
   startDate: Date
   addressStreet: string
