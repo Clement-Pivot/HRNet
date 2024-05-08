@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { DatePicker } from '@malfeitor/date-picker'
 import './index.scss'
-import { useRef } from 'react'
+import { ChangeEvent, useRef, useState } from 'react'
 import States from '../../utils/statesList'
 import { useEmployeeStore } from '../../utils/store'
 import CustomModal from '../../components/CustomModal'
@@ -15,15 +15,38 @@ export default function CreateEmployee() {
     weekStartingDay: 'Sunday',
   }
 
-  const firstNameRef = useRef<HTMLInputElement>(null)
-  const lastNameRef = useRef<HTMLInputElement>(null)
   const birthdateRef = useRef<HTMLInputElement>(null)
   const startDateRef = useRef<HTMLInputElement>(null)
-  const addressStreetRef = useRef<HTMLInputElement>(null)
-  const addressCityRef = useRef<HTMLInputElement>(null)
-  const addressStateRef = useRef<HTMLSelectElement>(null)
-  const addressZipRef = useRef<HTMLInputElement>(null)
-  const departmentRef = useRef<HTMLSelectElement>(null)
+
+  const [firstname, setFirstname] = useState('')
+  const [lastname, setLastname] = useState('')
+  const [addressStreet, setAddressStreet] = useState('')
+  const [addressCity, setAddressCity] = useState('')
+  const [addressState, setAddressState] = useState('')
+  const [addressZip, setAddressZip] = useState('')
+  const [department, setDepartment] = useState('')
+
+  const handleFirstnameChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setFirstname(event.target.value)
+  }
+  const handleLastnameChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setLastname(event.target.value)
+  }
+  const handleAddressStreetChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setAddressStreet(event.target.value)
+  }
+  const handleAddressCityChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setAddressCity(event.target.value)
+  }
+  const handleAddressStateChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setAddressState(event.target.value)
+  }
+  const handleAddressZipChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setAddressZip(event.target.value)
+  }
+  const handleDepartmentChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setDepartment(event.target.value)
+  }
 
   const addEmployeeInStore = useEmployeeStore((state) => state.addEmployee)
   const allEmployeesInStore = useEmployeeStore((state) => state.employees)
@@ -31,16 +54,18 @@ export default function CreateEmployee() {
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
+    const birthdate = birthdateRef!.current!.value
+    const startDate = startDateRef!.current!.value
     const employee = {
-      firstName: firstNameRef!.current!.value,
-      lastName: lastNameRef!.current!.value,
-      birthDate: new Date(birthdateRef!.current!.value),
-      startDate: new Date(startDateRef!.current!.value),
-      addressStreet: addressStreetRef!.current!.value,
-      addressCity: addressCityRef!.current!.value,
-      addressState: addressStateRef!.current!.value,
-      addressZip: parseInt(addressZipRef!.current!.value),
-      department: departmentRef!.current!.value,
+      firstname,
+      lastname,
+      birthDate: new Date(birthdate),
+      startDate: new Date(startDate),
+      addressStreet,
+      addressCity,
+      addressState,
+      addressZip: parseInt(addressZip),
+      department,
     }
     const employeeStringified = JSON.stringify(employee)
     if (
@@ -70,7 +95,8 @@ export default function CreateEmployee() {
           <Form.Label>First Name</Form.Label>
           <Form.Control
             type="text"
-            ref={firstNameRef}
+            value={firstname}
+            onChange={handleFirstnameChange}
             required
             placeholder="Enter his firstname"
           />
@@ -79,7 +105,8 @@ export default function CreateEmployee() {
           <Form.Label>Last Name</Form.Label>
           <Form.Control
             type="text"
-            ref={lastNameRef}
+            value={lastname}
+            onChange={handleLastnameChange}
             placeholder="Enter his lastname"
             required
           />
@@ -111,7 +138,8 @@ export default function CreateEmployee() {
             <Form.Label>Street</Form.Label>
             <Form.Control
               type="text"
-              ref={addressStreetRef}
+              value={addressStreet}
+              onChange={handleAddressStreetChange}
               required
               placeholder="Enter his street"
             />
@@ -120,7 +148,8 @@ export default function CreateEmployee() {
             <Form.Label>City</Form.Label>
             <Form.Control
               type="text"
-              ref={addressCityRef}
+              value={addressCity}
+              onChange={handleAddressCityChange}
               required
               placeholder="Enter his city"
             />
@@ -131,7 +160,8 @@ export default function CreateEmployee() {
               aria-label="Select state"
               name="state"
               required
-              ref={addressStateRef}
+              value={addressState}
+              onChange={handleAddressStateChange}
             >
               {States.map((state) => (
                 <option key={`state-${state.abbreviation}`}>
@@ -145,7 +175,8 @@ export default function CreateEmployee() {
             <Form.Control
               placeholder="Enter his Zip code"
               type="number"
-              ref={addressZipRef}
+              value={addressZip}
+              onChange={handleAddressZipChange}
               required
             />
           </Form.Group>
@@ -155,7 +186,8 @@ export default function CreateEmployee() {
           <Form.Select
             aria-label="Select department"
             name="department"
-            ref={departmentRef}
+            value={department}
+            onChange={handleDepartmentChange}
             required
           >
             <option>Sales</option>
