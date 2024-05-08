@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { DatePicker } from '@malfeitor/date-picker'
 import './index.scss'
-import { ChangeEvent, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import States from '../../utils/statesList'
 import { useEmployeeStore } from '../../utils/store'
 import CustomModal from '../../components/CustomModal'
@@ -18,65 +18,91 @@ export default function CreateEmployee() {
   const birthdateRef = useRef<HTMLInputElement>(null)
   const startDateRef = useRef<HTMLInputElement>(null)
 
-  const [firstname, setFirstname] = useState('')
-  const [lastname, setLastname] = useState('')
-  const [addressStreet, setAddressStreet] = useState('')
-  const [addressCity, setAddressCity] = useState('')
-  const [addressState, setAddressState] = useState('')
-  const [addressZip, setAddressZip] = useState('')
-  const [department, setDepartment] = useState('')
+  const [form, setForm] = useState({
+    firstname: '',
+    lastname: '',
+    birthDate: '',
+    startDate: '',
+    addressStreet: '',
+    addressCity: '',
+    addressState: '',
+    addressZip: '',
+    department: '',
+  })
+  const [errors, setErrors] = useState<FormErrors>({})
+  type FormErrors = { [key: string]: string }
 
-  const handleFirstnameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setFirstname(event.target.value)
-  }
-  const handleLastnameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setLastname(event.target.value)
-  }
-  const handleAddressStreetChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setAddressStreet(event.target.value)
-  }
-  const handleAddressCityChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setAddressCity(event.target.value)
-  }
-  const handleAddressStateChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setAddressState(event.target.value)
-  }
-  const handleAddressZipChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setAddressZip(event.target.value)
-  }
-  const handleDepartmentChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setDepartment(event.target.value)
+  const setFormField = (field: string, value: string) => {
+    setForm({ ...form, [field]: value })
   }
 
   const addEmployeeInStore = useEmployeeStore((state) => state.addEmployee)
   const allEmployeesInStore = useEmployeeStore((state) => state.employees)
   const showModal = useEmployeeStore((state) => state.showModal)
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault()
-    const birthdate = birthdateRef!.current!.value
-    const startDate = startDateRef!.current!.value
-    const employee = {
+  const findErrors = () => {
+    const {
       firstname,
       lastname,
-      birthDate: new Date(birthdate),
-      startDate: new Date(startDate),
       addressStreet,
       addressCity,
       addressState,
-      addressZip: parseInt(addressZip),
+      addressZip,
       department,
-    }
-    const employeeStringified = JSON.stringify(employee)
-    if (
-      !allEmployeesInStore.some((storeEmployee) => {
-        return JSON.stringify(storeEmployee) === employeeStringified
-      })
-    ) {
-      addEmployeeInStore(employee)
-      showModal('Employee successfully created !')
+    } = form
+    const birthdate = birthdateRef!.current!.value
+    const startDate = startDateRef!.current!.value
+    const newErrors: FormErrors = {}
+
+    if (!firstname || firstname === '') newErrors.firstname = 'Cannot be blank'
+    else if (firstname.length > 24)
+      newErrors.firstname = 'Firstname is too long'
+    if (!lastname || lastname === '') newErrors.lastname = 'Cannot be blank'
+    if (!addressStreet || addressStreet === '')
+      newErrors.addressStreet = 'Cannot be blank'
+    if (!addressCity || addressCity === '')
+      newErrors.addressCity = 'Cannot be blank'
+    if (!addressState || addressState === '')
+      newErrors.addressState = 'Cannot be blank'
+    if (!addressZip || addressZip === '')
+      newErrors.addressZip = 'Cannot be blank'
+    if (!department || department === '')
+      newErrors.department = 'Cannot be blank'
+    if (!birthdate || birthdate === '') newErrors.birthdate = 'Cannot be blank'
+    if (!startDate || startDate === '') newErrors.startDate = 'Cannot be blank'
+    return newErrors
+  }
+
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault()
+    const errors = findErrors()
+    if (Object.keys(errors).length > 0) {
+      setErrors(errors)
     } else {
-      showModal('Employee already exists !')
+      const birthdate = birthdateRef!.current!.value
+      const startDate = startDateRef!.current!.value
+      const employee = {
+        firstname: form.firstname,
+        lastname: form.lastname,
+        birthDate: new Date(birthdate),
+        startDate: new Date(startDate),
+        addressStreet: form.addressStreet,
+        addressCity: form.addressCity,
+        addressState: form.addressState,
+        addressZip: parseInt(form.addressZip),
+        department: form.department,
+      }
+      const employeeStringified = JSON.stringify(employee)
+      if (
+        !allEmployeesInStore.some((storeEmployee) => {
+          return JSON.stringify(storeEmployee) === employeeStringified
+        })
+      ) {
+        addEmployeeInStore(employee)
+        showModal('Employee successfully created !')
+      } else {
+        showModal('Employee already exists !')
+      }
     }
   }
 
@@ -95,21 +121,27 @@ export default function CreateEmployee() {
           <Form.Label>First Name</Form.Label>
           <Form.Control
             type="text"
-            value={firstname}
-            onChange={handleFirstnameChange}
-            required
+            value={form.firstname}
+            onChange={(e) => setFormField('firstname', e.target.value)}
+            isInvalid={!!errors.firstname}
             placeholder="Enter his firstname"
           />
+          <Form.Control.Feedback type="invalid">
+            {errors.firstname}
+          </Form.Control.Feedback>
         </Form.Group>
         <Form.Group controlId="lastname">
           <Form.Label>Last Name</Form.Label>
           <Form.Control
             type="text"
-            value={lastname}
-            onChange={handleLastnameChange}
+            value={form.lastname}
+            onChange={(e) => setFormField('lastname', e.target.value)}
+            isInvalid={!!errors.lastname}
             placeholder="Enter his lastname"
-            required
           />
+          <Form.Control.Feedback type="invalid">
+            {errors.lastname}
+          </Form.Control.Feedback>
         </Form.Group>
         <Form.Group controlId="birthdate">
           <Form.Label>Date of Birth</Form.Label>
@@ -117,7 +149,6 @@ export default function CreateEmployee() {
             id="birthdate"
             ref={birthdateRef}
             {...datePickerProps}
-            required
             placeholder="Click to choose the birthday"
           />
         </Form.Group>
@@ -127,7 +158,6 @@ export default function CreateEmployee() {
             id="startDate"
             ref={startDateRef}
             {...datePickerProps}
-            required
             placeholder="Click to choose the start date"
           />
         </Form.Group>
@@ -138,47 +168,62 @@ export default function CreateEmployee() {
             <Form.Label>Street</Form.Label>
             <Form.Control
               type="text"
-              value={addressStreet}
-              onChange={handleAddressStreetChange}
-              required
+              value={form.addressStreet}
+              onChange={(e) => setFormField('addressStreet', e.target.value)}
+              isInvalid={!!errors.addressStreet}
               placeholder="Enter his street"
             />
+            <Form.Control.Feedback type="invalid">
+              {errors.addressStreet}
+            </Form.Control.Feedback>
           </Form.Group>
           <Form.Group controlId="city">
             <Form.Label>City</Form.Label>
             <Form.Control
               type="text"
-              value={addressCity}
-              onChange={handleAddressCityChange}
-              required
+              value={form.addressCity}
+              onChange={(e) => setFormField('addressCity', e.target.value)}
+              isInvalid={!!errors.addressCity}
               placeholder="Enter his city"
             />
+            <Form.Control.Feedback type="invalid">
+              {errors.addressCity}
+            </Form.Control.Feedback>
           </Form.Group>
           <Form.Group controlId="state">
             <Form.Label>State</Form.Label>
             <Form.Select
               aria-label="Select state"
               name="state"
-              required
-              value={addressState}
-              onChange={handleAddressStateChange}
+              value={form.addressState}
+              onChange={(e) => setFormField('addressState', e.target.value)}
+              isInvalid={!!errors.addressState}
             >
+              <option hidden value="">
+                -- Select a State --
+              </option>
               {States.map((state) => (
-                <option key={`state-${state.abbreviation}`}>
+                <option key={`state-${state.abbreviation}`} value={state.name}>
                   {state.name}
                 </option>
               ))}
             </Form.Select>
+            <Form.Control.Feedback type="invalid">
+              {errors.addressState}
+            </Form.Control.Feedback>
           </Form.Group>
           <Form.Group controlId="zip-code">
             <Form.Label>Zip Code</Form.Label>
             <Form.Control
               placeholder="Enter his Zip code"
               type="number"
-              value={addressZip}
-              onChange={handleAddressZipChange}
-              required
+              value={form.addressZip}
+              onChange={(e) => setFormField('addressZip', e.target.value)}
+              isInvalid={!!errors.addressZip}
             />
+            <Form.Control.Feedback type="invalid">
+              {errors.addressZip}
+            </Form.Control.Feedback>
           </Form.Group>
         </fieldset>
         <Form.Group controlId="department">
@@ -186,16 +231,22 @@ export default function CreateEmployee() {
           <Form.Select
             aria-label="Select department"
             name="department"
-            value={department}
-            onChange={handleDepartmentChange}
-            required
+            value={form.department}
+            onChange={(e) => setFormField('department', e.target.value)}
+            isInvalid={!!errors.department}
           >
-            <option>Sales</option>
-            <option>Marketing</option>
-            <option>Engineering</option>
-            <option>Human Resources</option>
-            <option>Legal</option>
+            <option hidden value="">
+              -- Select a department --
+            </option>
+            <option value="Engineering">Engineering</option>
+            <option value="Human">Human Resources</option>
+            <option value="Legal">Legal</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Sales">Sales</option>
           </Form.Select>
+          <Form.Control.Feedback type="invalid">
+            {errors.department}
+          </Form.Control.Feedback>
         </Form.Group>
         <Button type="submit" className="create-employee__submit">
           Save
