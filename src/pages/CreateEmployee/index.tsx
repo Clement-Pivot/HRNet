@@ -117,32 +117,34 @@ export default function CreateEmployee() {
         id="create-employee__form"
         onSubmit={handleSubmit}
       >
-        <Form.Group className="mb-3" controlId="firstname">
-          <Form.Label>First Name</Form.Label>
-          <Form.Control
-            type="text"
-            value={form.firstname}
-            onChange={(e) => setFormField('firstname', e.target.value)}
-            isInvalid={!!errors.firstname}
-            placeholder="Enter his firstname"
-          />
-          <Form.Control.Feedback type="invalid">
-            {errors.firstname}
-          </Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group controlId="lastname">
-          <Form.Label>Last Name</Form.Label>
-          <Form.Control
-            type="text"
-            value={form.lastname}
-            onChange={(e) => setFormField('lastname', e.target.value)}
-            isInvalid={!!errors.lastname}
-            placeholder="Enter his lastname"
-          />
-          <Form.Control.Feedback type="invalid">
-            {errors.lastname}
-          </Form.Control.Feedback>
-        </Form.Group>
+        <div className="row">
+          <Form.Group className="col-md-6" controlId="firstname">
+            <Form.Label>First Name</Form.Label>
+            <Form.Control
+              type="text"
+              value={form.firstname}
+              onChange={(e) => setFormField('firstname', e.target.value)}
+              isInvalid={!!errors.firstname}
+              placeholder="Enter his firstname"
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.firstname}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group controlId="lastname" className="col-md-6">
+            <Form.Label>Last Name</Form.Label>
+            <Form.Control
+              type="text"
+              value={form.lastname}
+              onChange={(e) => setFormField('lastname', e.target.value)}
+              isInvalid={!!errors.lastname}
+              placeholder="Enter his lastname"
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.lastname}
+            </Form.Control.Feedback>
+          </Form.Group>
+        </div>
         <Form.Group controlId="birthdate">
           <Form.Label>Date of Birth</Form.Label>
           <DatePicker
