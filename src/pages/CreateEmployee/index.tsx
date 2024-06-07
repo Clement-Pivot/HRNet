@@ -18,80 +18,21 @@ export default function CreateEmployee() {
   const birthdateRef = useRef<HTMLInputElement>(null)
   const startDateRef = useRef<HTMLInputElement>(null)
 
-  const [form, setForm] = useState({
-    firstname: '',
-    lastname: '',
-    birthDate: '',
-    startDate: '',
-    addressStreet: '',
-    addressCity: '',
-    addressState: '',
-    addressZip: '',
-    department: '',
-  })
-  const [errors, setErrors] = useState<FormErrors>({})
-  type FormErrors = { [key: string]: string }
+  const [validated, setValidated] = useState(false)
 
-  const setFormField = (field: string, value: string) => {
-    setForm({ ...form, [field]: value })
-  }
+  type FormErrors = { [key: string]: string }
+  const [errors, setErrors] = useState<FormErrors>({})
 
   const addEmployeeInStore = useEmployeeStore((state) => state.addEmployee)
   const allEmployeesInStore = useEmployeeStore((state) => state.employees)
   const showModal = useEmployeeStore((state) => state.showModal)
 
-  const findErrors = () => {
-    const {
-      firstname,
-      lastname,
-      addressStreet,
-      addressCity,
-      addressState,
-      addressZip,
-      department,
-    } = form
-    const birthdate = birthdateRef!.current!.value
-    const startDate = startDateRef!.current!.value
-    const newErrors: FormErrors = {}
-
-    if (!firstname || firstname === '') newErrors.firstname = 'Cannot be blank'
-    else if (firstname.length > 24)
-      newErrors.firstname = 'Firstname is too long'
-    if (!lastname || lastname === '') newErrors.lastname = 'Cannot be blank'
-    if (!addressStreet || addressStreet === '')
-      newErrors.addressStreet = 'Cannot be blank'
-    if (!addressCity || addressCity === '')
-      newErrors.addressCity = 'Cannot be blank'
-    if (!addressState || addressState === '')
-      newErrors.addressState = 'Cannot be blank'
-    if (!addressZip || addressZip === '')
-      newErrors.addressZip = 'Cannot be blank'
-    if (!department || department === '')
-      newErrors.department = 'Cannot be blank'
-    if (!birthdate || birthdate === '') newErrors.birthdate = 'Cannot be blank'
-    if (!startDate || startDate === '') newErrors.startDate = 'Cannot be blank'
-    return newErrors
-  }
-
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
-    const errors = findErrors()
-    if (Object.keys(errors).length > 0) {
-      setErrors(errors)
-    } else {
-      const birthdate = birthdateRef!.current!.value
-      const startDate = startDateRef!.current!.value
-      const employee = {
-        firstname: form.firstname,
-        lastname: form.lastname,
-        birthDate: new Date(birthdate),
-        startDate: new Date(startDate),
-        addressStreet: form.addressStreet,
-        addressCity: form.addressCity,
-        addressState: form.addressState,
-        addressZip: parseInt(form.addressZip),
-        department: form.department,
-      }
+    setValidated(true)
+    if (e.currentTarget.checkValidity()) {
+      const form = e.currentTarget as HTMLFormElement
+      const employee = Object.fromEntries(new FormData(form))
       const employeeStringified = JSON.stringify(employee)
       if (
         !allEmployeesInStore.some((storeEmployee) => {
@@ -100,9 +41,19 @@ export default function CreateEmployee() {
       ) {
         addEmployeeInStore(employee)
         showModal('Employee successfully created !')
+        form.reset()
       } else {
         showModal('Employee already exists !')
       }
+    } else {
+      const newErrors: FormErrors = {}
+      for (let i = 0; i < e.currentTarget.length; i++) {
+        const elem = e.currentTarget[i] as HTMLFormElement
+        if (!elem.validity.valid) {
+          newErrors[elem.name] = elem.validationMessage
+        }
+      }
+      setErrors(newErrors)
     }
   }
 
@@ -114,18 +65,19 @@ export default function CreateEmployee() {
       <h2>Create Employee</h2>
       <Form
         className="create-employee__form"
-        id="create-employee__form"
         onSubmit={handleSubmit}
+        noValidate
+        validated={validated}
       >
         <div className="row">
           <Form.Group className="col-md-6" controlId="firstname">
             <Form.Label>First Name</Form.Label>
             <Form.Control
+              name="firstname"
               type="text"
-              value={form.firstname}
-              onChange={(e) => setFormField('firstname', e.target.value)}
-              isInvalid={!!errors.firstname}
               placeholder="Enter his firstname"
+              required
+              minLength={3}
             />
             <Form.Control.Feedback type="invalid">
               {errors.firstname}
@@ -135,10 +87,10 @@ export default function CreateEmployee() {
             <Form.Label>Last Name</Form.Label>
             <Form.Control
               type="text"
-              value={form.lastname}
-              onChange={(e) => setFormField('lastname', e.target.value)}
-              isInvalid={!!errors.lastname}
+              name="lastname"
               placeholder="Enter his lastname"
+              required
+              minLength={3}
             />
             <Form.Control.Feedback type="invalid">
               {errors.lastname}
@@ -148,80 +100,84 @@ export default function CreateEmployee() {
         <Form.Group controlId="birthdate">
           <Form.Label>Date of Birth</Form.Label>
           <DatePicker
-            id="birthdate"
+            name="birthDate"
             ref={birthdateRef}
             {...datePickerProps}
             placeholder="Click to choose the birthday"
+            required
           />
         </Form.Group>
         <Form.Group controlId="startDate">
           <Form.Label>Start Date</Form.Label>
           <DatePicker
-            id="startDate"
+            name="startDate"
             ref={startDateRef}
             {...datePickerProps}
             placeholder="Click to choose the start date"
+            required
           />
         </Form.Group>
-
         <fieldset className="address">
           <legend>Address</legend>
           <Form.Group controlId="street">
             <Form.Label>Street</Form.Label>
             <Form.Control
               type="text"
-              value={form.addressStreet}
-              onChange={(e) => setFormField('addressStreet', e.target.value)}
-              isInvalid={!!errors.addressStreet}
+              name="addressStreet"
               placeholder="Enter his street"
+              required
+              minLength={4}
             />
             <Form.Control.Feedback type="invalid">
               {errors.addressStreet}
             </Form.Control.Feedback>
           </Form.Group>
-          <Form.Group controlId="city">
-            <Form.Label>City</Form.Label>
-            <Form.Control
-              type="text"
-              value={form.addressCity}
-              onChange={(e) => setFormField('addressCity', e.target.value)}
-              isInvalid={!!errors.addressCity}
-              placeholder="Enter his city"
-            />
-            <Form.Control.Feedback type="invalid">
-              {errors.addressCity}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group controlId="state">
-            <Form.Label>State</Form.Label>
-            <Form.Select
-              aria-label="Select state"
-              name="state"
-              value={form.addressState}
-              onChange={(e) => setFormField('addressState', e.target.value)}
-              isInvalid={!!errors.addressState}
-            >
-              <option hidden value="">
-                -- Select a State --
-              </option>
-              {States.map((state) => (
-                <option key={`state-${state.abbreviation}`} value={state.name}>
-                  {state.name}
+          <div className="row">
+            <Form.Group controlId="city">
+              <Form.Label>City</Form.Label>
+              <Form.Control
+                type="text"
+                name="addressCity"
+                placeholder="Enter his city"
+                required
+                minLength={4}
+              />
+              <Form.Control.Feedback type="invalid">
+                {errors.addressCity}
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group controlId="state">
+              <Form.Label>State</Form.Label>
+              <Form.Select
+                aria-label="Select state"
+                name="addressState"
+                required
+              >
+                <option hidden value="">
+                  -- Select a State --
                 </option>
-              ))}
-            </Form.Select>
-            <Form.Control.Feedback type="invalid">
-              {errors.addressState}
-            </Form.Control.Feedback>
-          </Form.Group>
+                {States.map((state) => (
+                  <option
+                    key={`state-${state.abbreviation}`}
+                    value={state.name}
+                  >
+                    {state.name}
+                  </option>
+                ))}
+              </Form.Select>
+              <Form.Control.Feedback type="invalid">
+                {errors.addressState}
+              </Form.Control.Feedback>
+            </Form.Group>
+          </div>
           <Form.Group controlId="zip-code">
             <Form.Label>Zip Code</Form.Label>
             <Form.Control
               placeholder="Enter his Zip code"
               type="number"
-              value={form.addressZip}
-              onChange={(e) => setFormField('addressZip', e.target.value)}
-              isInvalid={!!errors.addressZip}
+              name="addressZip"
+              required
+              minLength={3}
             />
             <Form.Control.Feedback type="invalid">
               {errors.addressZip}
@@ -233,9 +189,7 @@ export default function CreateEmployee() {
           <Form.Select
             aria-label="Select department"
             name="department"
-            value={form.department}
-            onChange={(e) => setFormField('department', e.target.value)}
-            isInvalid={!!errors.department}
+            required
           >
             <option hidden value="">
               -- Select a department --
