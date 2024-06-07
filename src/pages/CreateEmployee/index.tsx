@@ -112,6 +112,7 @@ export default function CreateEmployee() {
             {...datePickerProps}
             placeholder="Click to choose the birthday"
             required
+            errorInvalidDate={errors.birthDate}
           />
         </Form.Group>
         <Form.Group controlId="startDate">
@@ -122,6 +123,7 @@ export default function CreateEmployee() {
             {...datePickerProps}
             placeholder="Click to choose the start date"
             required
+            errorInvalidDate={errors.startDate}
           />
         </Form.Group>
         <fieldset className="address">
