@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import CreateEmployee from './pages/CreateEmployee'
 import EmployeeList from './pages/EmployeeList'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
