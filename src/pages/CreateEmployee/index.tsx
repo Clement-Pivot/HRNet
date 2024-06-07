@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom'
 import { DatePicker } from '@malfeitor/date-picker'
 import './index.scss'
-import { useRef, useState } from 'react'
+import { FormEvent, useRef, useState } from 'react'
 import States from '../../utils/statesList'
 import { useEmployeeStore } from '../../utils/store'
 import CustomModal from '../../components/CustomModal'
 import Form from 'react-bootstrap/Form'
 import { Button } from 'react-bootstrap'
+import { Employee, isEmployee } from '../../utils/types'
 
 export default function CreateEmployee() {
   const datePickerProps = {
@@ -33,12 +34,7 @@ export default function CreateEmployee() {
     if (e.currentTarget.checkValidity()) {
       const form = e.currentTarget as HTMLFormElement
       const employee = Object.fromEntries(new FormData(form))
-      const employeeStringified = JSON.stringify(employee)
-      if (
-        !allEmployeesInStore.some((storeEmployee) => {
-          return JSON.stringify(storeEmployee) === employeeStringified
-        })
-      ) {
+      if (isEmployee(employee) && checkEmployeeDoesntExist(employee)) {
         addEmployeeInStore(employee)
         showModal('Employee successfully created !')
         form.reset()
@@ -46,15 +42,26 @@ export default function CreateEmployee() {
         showModal('Employee already exists !')
       }
     } else {
-      const newErrors: FormErrors = {}
-      for (let i = 0; i < e.currentTarget.length; i++) {
-        const elem = e.currentTarget[i] as HTMLFormElement
-        if (!elem.validity.valid) {
-          newErrors[elem.name] = elem.validationMessage
-        }
-      }
-      setErrors(newErrors)
+      setFormValidationErrors(e)
     }
+  }
+
+  function checkEmployeeDoesntExist(employee: Employee) {
+    const employeeStringified = JSON.stringify(employee)
+    return !allEmployeesInStore.some((storeEmployee) => {
+      return JSON.stringify(storeEmployee) === employeeStringified
+    })
+  }
+
+  function setFormValidationErrors(e: FormEvent<HTMLFormElement>) {
+    const newErrors: FormErrors = {}
+    for (let i = 0; i < e.currentTarget.length; i++) {
+      const elem = e.currentTarget[i] as HTMLFormElement
+      if (!elem.validity.valid) {
+        newErrors[elem.name] = elem.validationMessage
+      }
+    }
+    setErrors(newErrors)
   }
 
   return (
