@@ -38,6 +38,7 @@ export default function CreateEmployee() {
         addEmployeeInStore(employee)
         showModal('Employee successfully created !')
         form.reset()
+        setValidated(false)
       } else {
         showModal('Employee already exists !')
       }
