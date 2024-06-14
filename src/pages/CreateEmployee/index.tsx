@@ -1,11 +1,10 @@
 import { DatePicker } from '@malfeitor/date-picker'
-import './index.scss'
 import { FormEvent, useRef, useState } from 'react'
 import States from '../../utils/statesList'
 import { useEmployeeStore } from '../../utils/store'
 import CustomModal from '../../components/CustomModal'
 import Form from 'react-bootstrap/Form'
-import { Button } from 'react-bootstrap'
+import { Button, Row } from 'react-bootstrap'
 import { Employee, isEmployee } from '../../utils/types'
 
 export default function CreateEmployee() {
@@ -69,12 +68,12 @@ export default function CreateEmployee() {
       <CustomModal />
       <h2>Create Employee</h2>
       <Form
-        className="create-employee__form"
+        className="create-employee__form container"
         onSubmit={handleSubmit}
         noValidate
         validated={validated}
       >
-        <div className="row">
+        <Row>
           <Form.Group className="col-md-6" controlId="firstname">
             <Form.Label>First Name</Form.Label>
             <Form.Control
@@ -101,29 +100,29 @@ export default function CreateEmployee() {
               {errors.lastname}
             </Form.Control.Feedback>
           </Form.Group>
-        </div>
-        <Form.Group controlId="birthdate">
-          <Form.Label>Date of Birth</Form.Label>
-          <DatePicker
-            name="birthDate"
-            ref={birthdateRef}
-            {...datePickerProps}
-            placeholder="Click to choose the birthday"
-            required
-            errorInvalidDate={errors.birthDate}
-          />
-        </Form.Group>
-        <Form.Group controlId="startDate">
-          <Form.Label>Start Date</Form.Label>
-          <DatePicker
-            name="startDate"
-            ref={startDateRef}
-            {...datePickerProps}
-            placeholder="Click to choose the start date"
-            required
-            errorInvalidDate={errors.startDate}
-          />
-        </Form.Group>
+          <Form.Group controlId="birthdate" className="col-md-6">
+            <Form.Label>Date of Birth</Form.Label>
+            <DatePicker
+              name="birthDate"
+              ref={birthdateRef}
+              {...datePickerProps}
+              placeholder="Click to choose the birthday"
+              required
+              errorInvalidDate={errors.birthDate}
+            />
+          </Form.Group>
+          <Form.Group controlId="startDate" className="col-md-6">
+            <Form.Label>Start Date</Form.Label>
+            <DatePicker
+              name="startDate"
+              ref={startDateRef}
+              {...datePickerProps}
+              placeholder="Click to choose the start date"
+              required
+              errorInvalidDate={errors.startDate}
+            />
+          </Form.Group>
+        </Row>
         <fieldset className="address">
           <legend>Address</legend>
           <Form.Group controlId="street">
@@ -139,8 +138,8 @@ export default function CreateEmployee() {
               {errors.addressStreet}
             </Form.Control.Feedback>
           </Form.Group>
-          <div className="row">
-            <Form.Group controlId="city">
+          <Row>
+            <Form.Group controlId="city" className="col-md-4">
               <Form.Label>City</Form.Label>
               <Form.Control
                 type="text"
@@ -153,7 +152,7 @@ export default function CreateEmployee() {
                 {errors.addressCity}
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group controlId="state">
+            <Form.Group controlId="state" className="col-md-4">
               <Form.Label>State</Form.Label>
               <Form.Select
                 aria-label="Select state"
@@ -176,44 +175,48 @@ export default function CreateEmployee() {
                 {errors.addressState}
               </Form.Control.Feedback>
             </Form.Group>
-          </div>
-          <Form.Group controlId="zip-code">
-            <Form.Label>Zip Code</Form.Label>
-            <Form.Control
-              placeholder="Enter his Zip code"
-              type="number"
-              name="addressZip"
+            <Form.Group controlId="zip-code" className="col-md-4">
+              <Form.Label>Zip Code</Form.Label>
+              <Form.Control
+                placeholder="Enter his Zip code"
+                type="number"
+                name="addressZip"
+                required
+                minLength={3}
+              />
+              <Form.Control.Feedback type="invalid">
+                {errors.addressZip}
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Row>
+        </fieldset>
+        <Row className="mt-3">
+          <Form.Group controlId="department" className="col-md-8">
+            <Form.Label>Department</Form.Label>
+            <Form.Select
+              aria-label="Select department"
+              name="department"
               required
-              minLength={3}
-            />
+            >
+              <option hidden value="">
+                -- Select a department --
+              </option>
+              <option value="Engineering">Engineering</option>
+              <option value="Human">Human Resources</option>
+              <option value="Legal">Legal</option>
+              <option value="Marketing">Marketing</option>
+              <option value="Sales">Sales</option>
+            </Form.Select>
             <Form.Control.Feedback type="invalid">
-              {errors.addressZip}
+              {errors.department}
             </Form.Control.Feedback>
           </Form.Group>
-        </fieldset>
-        <Form.Group controlId="department">
-          <Form.Label>Department</Form.Label>
-          <Form.Select
-            aria-label="Select department"
-            name="department"
-            required
-          >
-            <option hidden value="">
-              -- Select a department --
-            </option>
-            <option value="Engineering">Engineering</option>
-            <option value="Human">Human Resources</option>
-            <option value="Legal">Legal</option>
-            <option value="Marketing">Marketing</option>
-            <option value="Sales">Sales</option>
-          </Form.Select>
-          <Form.Control.Feedback type="invalid">
-            {errors.department}
-          </Form.Control.Feedback>
-        </Form.Group>
-        <Button type="submit" className="create-employee__submit">
-          Save
-        </Button>
+          <Form.Group className="col-md-4 align-content-end">
+            <Button type="submit" className="create-employee__submit w-100">
+              Save
+            </Button>
+          </Form.Group>
+        </Row>
       </Form>
     </div>
   )
