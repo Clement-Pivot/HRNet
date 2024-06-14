@@ -64,7 +64,7 @@ export default function CreateEmployee() {
   }
 
   return (
-    <div className="create-employee">
+    <main className="create-employee container">
       <CustomModal />
       <h2>Create Employee</h2>
       <Form
@@ -218,6 +218,6 @@ export default function CreateEmployee() {
           </Form.Group>
         </Row>
       </Form>
-    </div>
+    </main>
   )
 }

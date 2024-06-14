@@ -1,3 +1,13 @@
 body {
   background-color: #eee;
 }
+
+.nav {
+  background-color: #94af3a;
+  box-shadow: 0 5px 5px rgba($color: #000, $alpha: 0.2);
+  a {
+    font-size: larger;
+    font-weight: bolder;
+    color: #000;
+  }
+}
