@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import { DatePicker } from '@malfeitor/date-picker'
 import './index.scss'
 import { FormEvent, useRef, useState } from 'react'
@@ -68,8 +67,6 @@ export default function CreateEmployee() {
   return (
     <div className="create-employee">
       <CustomModal />
-      <h1>HRnet</h1>
-      <Link to="/employee-list">View Current Employees</Link>
       <h2>Create Employee</h2>
       <Form
         className="create-employee__form"
