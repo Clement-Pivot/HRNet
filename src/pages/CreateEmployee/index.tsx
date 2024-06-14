@@ -66,7 +66,7 @@ export default function CreateEmployee() {
   return (
     <main className="create-employee container">
       <CustomModal />
-      <h2>Create Employee</h2>
+      <h2 className="text-center">Create Employee</h2>
       <Form
         className="create-employee__form container"
         onSubmit={handleSubmit}

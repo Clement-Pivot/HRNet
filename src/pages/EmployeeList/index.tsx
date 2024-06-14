@@ -17,7 +17,7 @@ export default function EmployeeList() {
 
   return (
     <main className="container">
-      Liste des employés
+      <h2 className="text-center">Liste des employés</h2>
       {allEmployeesInStore.length > 0 ? (
         <TableViewer
           rows={allEmployeesInStore}

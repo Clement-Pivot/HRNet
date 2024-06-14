@@ -11,3 +11,18 @@ body {
     color: #000;
   }
 }
+
+input,
+select,
+button,
+.tableViewer table,
+.input-group-text {
+  box-shadow: 0 5px 5px rgba($color: #000000, $alpha: 0.2);
+}
+
+main {
+  background-color: rgba($color: #666, $alpha: 0.1);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 5px 5px rgba($color: #000, $alpha: 0.2);
+}
