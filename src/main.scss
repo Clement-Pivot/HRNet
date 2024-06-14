@@ -14,10 +14,20 @@ body {
 
 input,
 select,
-button,
 .tableViewer table,
 .input-group-text {
   box-shadow: 0 5px 5px rgba($color: #000000, $alpha: 0.2);
+}
+
+input {
+  margin-bottom: 10px;
+}
+
+button {
+  border-radius: 20px;
+  background: linear-gradient(145deg, #9ebb3e, #859e34);
+  border: 0 none #000 !important;
+  box-shadow: 5px 5px 10px rgba($color: #000, $alpha: 0.2);
 }
 
 main {
