@@ -5,7 +5,10 @@ export default function Header() {
   const location = useLocation()
 
   return (
-    <Nav className="justify-content-between align-items-center p-3 mb-5 container-fluid">
+    <Nav
+      as="nav"
+      className="justify-content-between align-items-center p-3 mb-5 container-fluid"
+    >
       <h1>HRnet</h1>
       {location.pathname == '/' ? (
         <>
