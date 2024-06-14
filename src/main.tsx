@@ -5,6 +5,7 @@ import CreateEmployee from './pages/CreateEmployee'
 import EmployeeList from './pages/EmployeeList'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Header from './components/Header'
+import './main.scss'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
