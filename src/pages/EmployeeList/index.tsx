@@ -18,11 +18,13 @@ export default function EmployeeList() {
   return (
     <main>
       Liste des employés
-      {allEmployeesInStore.length > 0 && (
+      {allEmployeesInStore.length > 0 ? (
         <TableViewer
           rows={allEmployeesInStore}
           sortFunctions={sortingFunctions}
         />
+      ) : (
+        <div>There is no employees in the store.</div>
       )}
     </main>
   )
