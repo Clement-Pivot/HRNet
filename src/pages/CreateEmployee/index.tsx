@@ -73,7 +73,7 @@ export default function CreateEmployee() {
         noValidate
         validated={validated}
       >
-        <Row>
+        <Row className="mt-3">
           <Form.Group className="col-md-6" controlId="firstname">
             <Form.Label>First Name</Form.Label>
             <Form.Control
@@ -190,7 +190,7 @@ export default function CreateEmployee() {
             </Form.Group>
           </Row>
         </fieldset>
-        <Row className="mt-3">
+        <Row>
           <Form.Group controlId="department" className="col-md-8">
             <Form.Label>Department</Form.Label>
             <Form.Select
