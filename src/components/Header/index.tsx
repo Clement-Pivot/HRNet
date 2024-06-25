@@ -12,12 +12,16 @@ export default function Header() {
       <h1>HRnet</h1>
       {location.pathname == '/' ? (
         <>
-          <Link to="/employee-list">View Current Employees</Link>
+          <Link to="/employee-list" className="btn">
+            View Current Employees
+          </Link>
           <title>HRnet - Create Employee</title>
         </>
       ) : (
         <>
-          <Link to="/">Create Employee</Link>
+          <Link to="/" className="btn">
+            Create Employee
+          </Link>
           <title>HRnet - Employees List</title>
         </>
       )}
