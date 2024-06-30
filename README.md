@@ -35,3 +35,11 @@ J'ai utilisé SASS, TypeScript, React, Zustand, Bootstrap.
 - Filtrez les employés via le champ `Filter`
 
 ## Captures d'écran
+
+### Création d'employés
+
+![malfeitor github io_HRNet (1)](https://github.com/malfeitor/HRNet/assets/8830707/59e228aa-1bb0-4eca-8e2b-3ca4e4939dda)
+
+### Liste des employées
+
+![malfeitor github io_HRNet (3)](https://github.com/malfeitor/HRNet/assets/8830707/f834055d-d33b-44f0-ab34-ad8b5668ce64)
