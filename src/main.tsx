@@ -9,7 +9,7 @@ import './main.scss'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <Router>
+    <Router basename="/HRNet">
       <Header />
       <Routes>
         <Route path="/" element={<CreateEmployee />} />
