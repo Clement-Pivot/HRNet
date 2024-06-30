@@ -1,8 +1,10 @@
 import { Nav } from 'react-bootstrap'
 import { Link, useLocation } from 'react-router-dom'
+import useWindowFillEmployees from '../../utils/fillEmployes'
 
 export default function Header() {
   const location = useLocation()
+  useWindowFillEmployees()
 
   return (
     <Nav
