@@ -1,7 +1,8 @@
 # Project #14 - HRNet
 
 Code du projet 14 de la formation React d'OpenClassroom. \
-J'ai utilisé SASS, TypeScript, React, Zustand, Bootstrap.
+J'ai utilisé SASS, TypeScript, React, Zustand, Bootstrap. \
+Disponible sur [GitHub Pages](https://clement-pivot.github.io/HRNet/)
 
 ## Pour le reproduire
 
